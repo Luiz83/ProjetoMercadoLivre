@@ -1,6 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using ProjetoMercadoLivre.Lib.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<ProjetoMLContext>(
+        conn => conn.UseNpgsql(builder.Configuration.GetConnectionString("ProjetoMLDB"))
+    );
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
