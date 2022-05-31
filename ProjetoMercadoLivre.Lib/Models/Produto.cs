@@ -8,6 +8,7 @@ namespace ProjetoMercadoLivre.Lib.Models
         public double Valor { get; set; }
         public DateTime DataCadastro { get; set; }
         public Vendedor Vendedor { get; set; }
+        public int IdVendedor { get; set; }
         public List<ProdutoXPedido> ListaProdutosXPedidos { get; set; }
     }
 }

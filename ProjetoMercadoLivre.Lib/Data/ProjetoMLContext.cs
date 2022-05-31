@@ -16,17 +16,17 @@ namespace ProjetoMercadoLivre.Lib.Data
             //Produto
             modelBuilder.Entity<Produto>().ToTable("ml_produtos");
             modelBuilder.Entity<Produto>().HasKey(x => x.Id);
-            modelBuilder.Entity<Produto>().HasOne(x => x.Vendedor).WithMany(x => x.ListaProdutos).HasForeignKey(x => x.Vendedor);
+            modelBuilder.Entity<Produto>().HasOne(x => x.Vendedor).WithMany(x => x.ListaProdutos).HasForeignKey(x => x.IdVendedor);
             //Pedido
             modelBuilder.Entity<Pedido>().ToTable("ml_pedidos");
             modelBuilder.Entity<Pedido>().HasKey(x => x.Id);
-            modelBuilder.Entity<Pedido>().HasOne(x => x.Transportadora).WithMany(x => x.ListaPedidos).HasForeignKey(x => x.Transportadora);
-            modelBuilder.Entity<Pedido>().HasOne(x => x.Cliente).WithMany(x => x.ListaPedidos).HasForeignKey(x => x.Cliente);
+            modelBuilder.Entity<Pedido>().HasOne(x => x.Transportadora).WithMany(x => x.ListaPedidos).HasForeignKey(x => x.IdTransportadora);
+            modelBuilder.Entity<Pedido>().HasOne(x => x.Cliente).WithMany(x => x.ListaPedidos).HasForeignKey(x => x.IdUsuario);
             //ProdutoXPedido
             modelBuilder.Entity<ProdutoXPedido>().ToTable("ml_produtosxpedidos");
             modelBuilder.Entity<ProdutoXPedido>().HasKey(x => x.Id);
-            modelBuilder.Entity<ProdutoXPedido>().HasOne(x => x.Produto).WithMany(x => x.ListaProdutosXPedidos).HasForeignKey(x => x.Produto);
-            modelBuilder.Entity<ProdutoXPedido>().HasOne(x => x.Pedido).WithMany(x => x.ListaProdutosXPedidos).HasForeignKey(x => x.Pedido);
+            modelBuilder.Entity<ProdutoXPedido>().HasOne(x => x.Produto).WithMany(x => x.ListaProdutosXPedidos).HasForeignKey(x => x.IdProduto);
+            modelBuilder.Entity<ProdutoXPedido>().HasOne(x => x.Pedido).WithMany(x => x.ListaProdutosXPedidos).HasForeignKey(x => x.IdPedido);
             //Transportadora
             modelBuilder.Entity<Transportadora>().ToTable("ml_transportadoras");
             modelBuilder.Entity<Transportadora>().HasKey(x => x.Id);
