@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ProjetoMLContext>(
         conn => conn.UseNpgsql(builder.Configuration.GetConnectionString("ProjetoMLDB"))
+        .UseSnakeCaseNamingConvention()
     );
 
 builder.Services.AddControllers();
