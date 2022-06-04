@@ -10,6 +10,21 @@ namespace ProjetoMercadoLivre.Lib.Models
         public string Cpf { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Senha { get; set; }
-        public List<Pedido> ListaPedidos { get; set; }
+        public List<Pedido> ListaPedidos { get; set; } = new List<Pedido>();
+
+        public Usuario()
+        {
+
+        }
+
+        public Usuario(int idUsuario,string nome, string email, string cpf, DateTime dataNascimento, string senha)
+        {
+            IdUsuario = idUsuario;
+            Nome = nome;
+            Email = email;
+            Cpf = cpf;
+            DataNascimento = dataNascimento;
+            Senha = senha;
+        }
     }
 }

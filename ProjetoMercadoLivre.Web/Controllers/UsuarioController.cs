@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
 using ProjetoMercadoLivre.Lib.Models;
+using ProjetoMercadoLivre.Web.DTOs;
 
 namespace ProjetoMercadoLivre.Web.Controllers;
 
@@ -24,7 +25,7 @@ public class UsuarioController : ControllerBase
     [HttpGet("ListarTodos")]
     public IActionResult ListarTodos()
     {
-        var usuarios = _context.Usuarios.ToList();
+        var usuarios = _context.Usuarios.AsNoTracking().ToList();
         return Ok(usuarios);
     }
 
@@ -36,15 +37,16 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpPost("Adicionar")]
-    public IActionResult Adicionar(Usuario usuario)
+    public IActionResult Adicionar(UsuarioDTO usuarioDto)
     {
+        var usuario = new Usuario(usuarioDto.IdUsuario, usuarioDto.Nome, usuarioDto.Email, usuarioDto.Cpf, usuarioDto.DataNascimento, usuarioDto.Senha);
         _context.Usuarios.Add(usuario);
         _context.SaveChanges();
         return Ok(usuario);
     }
 
     [HttpPut("AlterarSenha/{id}/{senha}")]
-    public IActionResult AlterarValor(int id,string senha)
+    public IActionResult AlterarValor(int id, string senha)
     {
         var usuario = _context.Usuarios.Find(id);
         usuario.Senha = senha;

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
 using ProjetoMercadoLivre.Lib.Models;
+using ProjetoMercadoLivre.Web.DTOs;
 
 namespace ProjetoMercadoLivre.Web.Controllers;
 
@@ -24,7 +25,7 @@ public class VendedorController : ControllerBase
     [HttpGet("ListarTodos")]
     public IActionResult ListarTodos()
     {
-        var vendedores = _context.Vendedores.ToList();
+        var vendedores = _context.Vendedores.AsNoTracking().ToList();
         return Ok(vendedores);
     }
 
@@ -36,15 +37,16 @@ public class VendedorController : ControllerBase
     }
 
     [HttpPost("Adicionar")]
-    public IActionResult Adicionar(Vendedor vendedor)
+    public IActionResult Adicionar(VendedorDTO vendedorDto)
     {
+        var vendedor = new Vendedor(vendedorDto.IdVendedor, vendedorDto.Nome, vendedorDto.Email, vendedorDto.Cnpj, vendedorDto.DataCadastro);
         _context.Vendedores.Add(vendedor);
         _context.SaveChanges();
         return Ok(vendedor);
     }
 
     [HttpPut("AlterarEmail/{id}/{email}")]
-    public IActionResult AlterarValor(int id,string email)
+    public IActionResult AlterarValor(int id, string email)
     {
         var vendedor = _context.Vendedores.Find(id);
         vendedor.Email = email;

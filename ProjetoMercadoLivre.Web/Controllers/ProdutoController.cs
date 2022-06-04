@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
 using ProjetoMercadoLivre.Lib.Models;
+using ProjetoMercadoLivre.Web.DTOs;
 
 namespace ProjetoMercadoLivre.Web.Controllers;
 
@@ -24,7 +25,7 @@ public class ProdutoController : ControllerBase
     [HttpGet("ListarTodos")]
     public IActionResult ListarTodos()
     {
-        var produtos = _context.Produtos.ToList();
+        var produtos = _context.Produtos.AsNoTracking().ToList();
         return Ok(produtos);
     }
 
@@ -35,16 +36,24 @@ public class ProdutoController : ControllerBase
         return Ok(produto);
     }
 
-    [HttpPost("Adicionar")]
-    public IActionResult Adicionar(Produto produto)
+    [HttpGet("ListarTodosComVendedor")]
+    public IActionResult ListarTodosComVendedor()
     {
+        var produto = _context.Produtos.AsNoTracking().Include(x => x.Vendedor).ToList();
+        return Ok(produto);
+    }
+
+    [HttpPost("Adicionar")]
+    public IActionResult Adicionar(ProdutoDTO produtoDto)
+    {
+        var produto = new Produto(produtoDto.IdProduto, produtoDto.IdVendedor, produtoDto.Nome, produtoDto.Descricao, produtoDto.Valor, produtoDto.DataCadastro, produtoDto.Vendedor);
         _context.Produtos.Add(produto);
         _context.SaveChanges();
         return Ok(produto);
     }
 
     [HttpPut("AlterarValor/{id}/{valor}")]
-    public IActionResult AlterarValor(int id,double valor)
+    public IActionResult AlterarValor(int id, double valor)
     {
         var produto = _context.Produtos.Find(id);
         produto.Valor = valor;

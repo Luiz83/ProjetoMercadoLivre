@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
 using ProjetoMercadoLivre.Lib.Models;
+using ProjetoMercadoLivre.Web.DTOs;
 
 namespace ProjetoMercadoLivre.Web.Controllers;
 
@@ -24,7 +25,7 @@ public class ProdutoXPedidoController : ControllerBase
     [HttpGet("ListarTodos")]
     public IActionResult ListarTodos()
     {
-        var produtosXPedidos = _context.ProdutosXPedidos.ToList();
+        var produtosXPedidos = _context.ProdutosXPedidos.AsNoTracking().ToList();
         return Ok(produtosXPedidos);
     }
 
@@ -36,15 +37,16 @@ public class ProdutoXPedidoController : ControllerBase
     }
 
     [HttpPost("Adicionar")]
-    public IActionResult Adicionar(ProdutoXPedido produtoXPedido)
+    public IActionResult Adicionar(ProdutoXPedidoDTO produtoXPedidoDto)
     {
+        var produtoXPedido = new ProdutoXPedido(produtoXPedidoDto.IdPxp, produtoXPedidoDto.IdProduto, produtoXPedidoDto.IdPedido, produtoXPedidoDto.Produto, produtoXPedidoDto.Pedido);
         _context.ProdutosXPedidos.Add(produtoXPedido);
         _context.SaveChanges();
         return Ok(produtoXPedido);
     }
 
     [HttpPut("AlterarProduto/{id}/{idProduto}")]
-    public IActionResult AlterarValor(int id,int idProduto)
+    public IActionResult AlterarValor(int id, int idProduto)
     {
         var produtoXPedido = _context.ProdutosXPedidos.Find(id);
         var produto = _context.Produtos.Find(idProduto);

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
 using ProjetoMercadoLivre.Lib.Models;
+using ProjetoMercadoLivre.Web.DTOs;
 
 namespace ProjetoMercadoLivre.Web.Controllers;
 
@@ -24,7 +25,7 @@ public class PedidoController : ControllerBase
     [HttpGet("ListarTodos")]
     public IActionResult ListarTodos()
     {
-        var pedidos = _context.Pedidos.ToList();
+        var pedidos = _context.Pedidos.AsNoTracking().ToList();
         return Ok(pedidos);
     }
 
@@ -36,8 +37,9 @@ public class PedidoController : ControllerBase
     }
 
     [HttpPost("Adicionar")]
-    public IActionResult Adicionar(Pedido pedido)
+    public IActionResult Adicionar(PedidoDTO pedidoDto)
     {
+        var pedido = new Pedido(pedidoDto.IdPedido,pedidoDto.IdTransportadora, pedidoDto.IdUsuario, pedidoDto.DataPedido, pedidoDto.StatusPedido, pedidoDto.Transportadora, pedidoDto.Cliente);
         _context.Pedidos.Add(pedido);
         _context.SaveChanges();
         return Ok(pedido);
