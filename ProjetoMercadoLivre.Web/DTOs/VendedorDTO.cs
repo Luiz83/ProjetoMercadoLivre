@@ -9,6 +9,5 @@ namespace ProjetoMercadoLivre.Web.DTOs
         public string Email { get; set; }
         public string Cnpj { get; set; }
         public DateTime DataCadastro { get; set; }
-        public List<Produto> ListaProdutos { get; set; }
     }
 }

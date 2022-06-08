@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
+using ProjetoMercadoLivre.Lib.Data.Repositorios;
 using ProjetoMercadoLivre.Lib.Models;
 using ProjetoMercadoLivre.Web.DTOs;
 
@@ -14,52 +15,45 @@ public class UsuarioController : ControllerBase
 
 
     private readonly ILogger<UsuarioController> _logger;
-    private readonly ProjetoMLContext _context;
+    private readonly UsuarioRepositorio _repositorio;
 
-    public UsuarioController(ILogger<UsuarioController> logger, ProjetoMLContext context)
+    public UsuarioController(ILogger<UsuarioController> logger, UsuarioRepositorio repositorio)
     {
         _logger = logger;
-        _context = context;
+        _repositorio = repositorio;
     }
 
-    [HttpGet("ListarTodos")]
-    public IActionResult ListarTodos()
+    [HttpGet("BuscarTodos")]
+    public IActionResult BuscarTodos()
     {
-        var usuarios = _context.Usuarios.AsNoTracking().ToList();
-        return Ok(usuarios);
+        return Ok(_repositorio.BuscarTodos());
     }
 
-    [HttpGet("ListarPorId/{id}")]
-    public IActionResult ListarPorId(int id)
+    [HttpGet("BuscarPorId/{id}")]
+    public IActionResult BuscarPorId(int id)
     {
-        var usuario = _context.Usuarios.Find(id);
-        return Ok(usuario);
+        return Ok(_repositorio.BuscarPorId(id));
     }
 
     [HttpPost("Adicionar")]
     public IActionResult Adicionar(UsuarioDTO usuarioDto)
     {
         var usuario = new Usuario(usuarioDto.IdUsuario, usuarioDto.Nome, usuarioDto.Email, usuarioDto.Cpf, usuarioDto.DataNascimento, usuarioDto.Senha);
-        _context.Usuarios.Add(usuario);
-        _context.SaveChanges();
-        return Ok(usuario);
+        _repositorio.Adicionar(usuario);
+        return Ok("Usuario Adicionado com sucesso");
     }
 
     [HttpPut("AlterarSenha/{id}/{senha}")]
     public IActionResult AlterarValor(int id, string senha)
     {
-        var usuario = _context.Usuarios.Find(id);
-        usuario.Senha = senha;
-        _context.SaveChanges();
-        return Ok(usuario);
+        _repositorio.AlterarSenha(id, senha);
+        return Ok("Senha alterada com sucesso");
     }
 
     [HttpDelete("Deletar/{id}")]
     public IActionResult Deletar(int id)
     {
-        var usuario = _context.Usuarios.Find(id);
-        _context.Usuarios.Remove(usuario);
-        _context.SaveChanges();
+        _repositorio.Deletar(id);
         return Ok("Removido com sucesso");
     }
 }

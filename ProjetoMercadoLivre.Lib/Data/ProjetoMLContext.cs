@@ -34,7 +34,7 @@ namespace ProjetoMercadoLivre.Lib.Data
             //Vendedor
             modelBuilder.Entity<Vendedor>().ToTable("ml_vendedores");
             modelBuilder.Entity<Vendedor>().HasKey(x => x.IdVendedor);
-            modelBuilder.Entity<Vendedor>().HasMany(x => x.ListaProdutos).WithOne(x => x.Vendedor).HasForeignKey(x => x.IdVendedor);
+            modelBuilder.Entity<Vendedor>().HasMany(x => x.ListaProdutos).WithOne(x => x.Vendedor);
             //Usuario
             modelBuilder.Entity<Usuario>().ToTable("ml_usuarios");
             modelBuilder.Entity<Usuario>().HasKey(x => x.IdUsuario);

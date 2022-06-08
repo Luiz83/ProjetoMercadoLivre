@@ -16,14 +16,14 @@ namespace ProjetoMercadoLivre.Lib.Models
 
         }
 
-        public Produto(int idProduto,int idVendedor, string nome, string descricao,Double valor, DateTime dataCadastro, Vendedor vendedor)
+        public Produto(int idProduto,int idVendedor, string nome, string descricao,Double valor, DateTime dataCadastro)
         {
             IdProduto = idProduto;
+            IdVendedor = idVendedor;
             Nome = nome;
             Descricao = descricao;
             Valor = valor;
             DataCadastro = dataCadastro;
-            Vendedor = vendedor;
         }
     }
 }

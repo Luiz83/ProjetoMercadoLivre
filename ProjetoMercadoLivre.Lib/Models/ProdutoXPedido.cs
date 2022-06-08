@@ -13,13 +13,11 @@ namespace ProjetoMercadoLivre.Lib.Models
 
         }
 
-        public ProdutoXPedido(int idPxp,int idProduto, int idPedido, Produto produto, Pedido pedido)
+        public ProdutoXPedido(int idPxp,int idProduto, int idPedido)
         {
             IdPxp = idPxp;
             IdProduto = idProduto;
             IdPedido = idPedido;
-            Produto = produto;
-            Pedido = pedido;
         }
         
     }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
+using ProjetoMercadoLivre.Lib.Data.Repositorios;
 using ProjetoMercadoLivre.Lib.Models;
 using ProjetoMercadoLivre.Web.DTOs;
 
@@ -14,59 +15,52 @@ public class ProdutoController : ControllerBase
 
 
     private readonly ILogger<ProdutoController> _logger;
-    private readonly ProjetoMLContext _context;
+    private readonly ProdutoRepositorio _repositorio;
 
-    public ProdutoController(ILogger<ProdutoController> logger, ProjetoMLContext context)
+    public ProdutoController(ILogger<ProdutoController> logger, ProdutoRepositorio repositorio)
     {
         _logger = logger;
-        _context = context;
+        _repositorio = repositorio;
     }
 
-    [HttpGet("ListarTodos")]
-    public IActionResult ListarTodos()
+    [HttpGet("BuscarTodos")]
+    public IActionResult BuscarTodos()
     {
-        var produtos = _context.Produtos.AsNoTracking().ToList();
-        return Ok(produtos);
+        return Ok(_repositorio.BuscarTodos());
     }
 
-    [HttpGet("ListarPorId/{id}")]
-    public IActionResult ListarPorId(int id)
+    [HttpGet("BuscarPorId/{id}")]
+    public IActionResult BuscarPorId(int id)
     {
-        var produto = _context.Produtos.Find(id);
-        return Ok(produto);
+        return Ok(_repositorio.BuscarPorId(id));
     }
 
-    [HttpGet("ListarTodosComVendedor")]
-    public IActionResult ListarTodosComVendedor()
+    [HttpGet("BuscarTodosComVendedor")]
+    public IActionResult BuscarTodosComVendedor()
     {
-        var produto = _context.Produtos.AsNoTracking().Include(x => x.Vendedor).ToList();
-        return Ok(produto);
+        return Ok(_repositorio.BuscarProdutoComVendedor());
     }
 
     [HttpPost("Adicionar")]
     public IActionResult Adicionar(ProdutoDTO produtoDto)
     {
-        var produto = new Produto(produtoDto.IdProduto, produtoDto.IdVendedor, produtoDto.Nome, produtoDto.Descricao, produtoDto.Valor, produtoDto.DataCadastro, produtoDto.Vendedor);
-        _context.Produtos.Add(produto);
-        _context.SaveChanges();
-        return Ok(produto);
+        var produto = new Produto(produtoDto.IdProduto, produtoDto.IdVendedor, produtoDto.Nome, produtoDto.Descricao, produtoDto.Valor, produtoDto.DataCadastro);
+        _repositorio.Adicionar(produto);
+        return Ok("Produto adicionado com sucesso");
     }
 
     [HttpPut("AlterarValor/{id}/{valor}")]
     public IActionResult AlterarValor(int id, double valor)
     {
-        var produto = _context.Produtos.Find(id);
-        produto.Valor = valor;
-        _context.SaveChanges();
-        return Ok(produto);
+        _repositorio.AlterarValor(id, valor);
+        return Ok("Valor alterado com sucesso");
     }
 
     [HttpDelete("Deletar/{id}")]
     public IActionResult Deletar(int id)
     {
-        var produto = _context.Produtos.Find(id);
-        _context.Produtos.Remove(produto);
-        _context.SaveChanges();
+        _repositorio.Deletar(id);
         return Ok("Removido com sucesso");
     }
+
 }

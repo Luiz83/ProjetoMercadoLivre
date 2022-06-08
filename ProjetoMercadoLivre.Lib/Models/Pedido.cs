@@ -16,15 +16,13 @@ namespace ProjetoMercadoLivre.Lib.Models
 
         }
 
-        public Pedido(int idPedido, int idTransportadora, int idUsuario, DateTime dataPedido, string statusPedido, Transportadora transportadora, Usuario usuario)
+        public Pedido(int idPedido, int idTransportadora, int idUsuario, DateTime dataPedido, string statusPedido)
         {
             IdPedido = idPedido;
             IdTransportadora = idTransportadora;
             IdUsuario = idUsuario;
             DataPedido = dataPedido;
             StatusPedido = statusPedido;
-            Transportadora = transportadora;
-            Cliente = usuario;
         }
     }
 }

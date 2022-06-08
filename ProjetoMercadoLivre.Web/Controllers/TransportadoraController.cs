@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
+using ProjetoMercadoLivre.Lib.Data.Repositorios;
 using ProjetoMercadoLivre.Lib.Models;
 using ProjetoMercadoLivre.Web.DTOs;
 
@@ -14,52 +15,45 @@ public class TransportadoraController : ControllerBase
 
 
     private readonly ILogger<TransportadoraController> _logger;
-    private readonly ProjetoMLContext _context;
+    private readonly TransportadoraRepositorio _repositorio;
 
-    public TransportadoraController(ILogger<TransportadoraController> logger, ProjetoMLContext context)
+    public TransportadoraController(ILogger<TransportadoraController> logger, TransportadoraRepositorio repositorio)
     {
         _logger = logger;
-        _context = context;
+        _repositorio = repositorio;
     }
 
-    [HttpGet("ListarTodos")]
-    public IActionResult ListarTodos()
+    [HttpGet("BuscarTodos")]
+    public IActionResult BuscarTodos()
     {
-        var transportadoras = _context.Transportadoras.AsNoTracking().ToList();
-        return Ok(transportadoras);
+        return Ok(_repositorio.BuscarTodos());
     }
 
-    [HttpGet("ListarPorId/{id}")]
-    public IActionResult ListarPorId(int id)
+    [HttpGet("BuscarPorId/{id}")]
+    public IActionResult BuscarPorId(int id)
     {
-        var transportadora = _context.Transportadoras.Find(id);
-        return Ok(transportadora);
+        return Ok(_repositorio.BuscarPorId(id));
     }
 
     [HttpPost("Adicionar")]
     public IActionResult Adicionar(TransportadoraDTO transportadoraDto)
     {
         var transportadora = new Transportadora(transportadoraDto.IdTransportadora, transportadoraDto.Nome, transportadoraDto.Telefone, transportadoraDto.Email);
-        _context.Transportadoras.Add(transportadora);
-        _context.SaveChanges();
-        return Ok(transportadora);
+        _repositorio.Adicionar(transportadora);
+        return Ok("Transportadora adionada com sucesso");
     }
 
     [HttpPut("AlterarEmail/{id}/{email}")]
-    public IActionResult AlterarValor(int id, string email)
+    public IActionResult AlterarEmail(int id, string email)
     {
-        var transportadora = _context.Transportadoras.Find(id);
-        transportadora.Email = email;
-        _context.SaveChanges();
-        return Ok(transportadora);
+        _repositorio.AlterarEmail(id, email);
+        return Ok("Email alterado com sucesso");
     }
 
     [HttpDelete("Deletar/{id}")]
     public IActionResult Deletar(int id)
     {
-        var transportadora = _context.Transportadoras.Find(id);
-        _context.Transportadoras.Remove(transportadora);
-        _context.SaveChanges();
+        _repositorio.Deletar(id);
         return Ok("Removido com sucesso");
     }
 }
