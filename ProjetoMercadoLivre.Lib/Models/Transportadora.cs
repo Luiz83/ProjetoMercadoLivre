@@ -1,8 +1,7 @@
 namespace ProjetoMercadoLivre.Lib.Models
 {
-    public class Transportadora
+    public class Transportadora : ModelBase
     {
-        public int IdTransportadora { get; set; }
         public string Nome { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
@@ -15,7 +14,7 @@ namespace ProjetoMercadoLivre.Lib.Models
 
         public Transportadora(int idTransportadora,string nome, string telefone, string email)
         {
-            IdTransportadora = idTransportadora;
+            Id = idTransportadora;
             Nome = nome;
             Telefone = telefone;
             Email = email;

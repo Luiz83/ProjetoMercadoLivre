@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
 using ProjetoMercadoLivre.Lib.Data.Repositorios;
+using ProjetoMercadoLivre.Lib.Data.Repositorios.Interfaces;
 using ProjetoMercadoLivre.Lib.Models;
 using ProjetoMercadoLivre.Web.DTOs;
 
@@ -12,14 +13,10 @@ namespace ProjetoMercadoLivre.Web.Controllers;
 
 public class ProdutoController : ControllerBase
 {
+    private readonly IRepositorioProduto _repositorio;
 
-
-    private readonly ILogger<ProdutoController> _logger;
-    private readonly ProdutoRepositorio _repositorio;
-
-    public ProdutoController(ILogger<ProdutoController> logger, ProdutoRepositorio repositorio)
+    public ProdutoController(IRepositorioProduto repositorio)
     {
-        _logger = logger;
         _repositorio = repositorio;
     }
 
@@ -28,19 +25,19 @@ public class ProdutoController : ControllerBase
     {
         return Ok(_repositorio.BuscarTodos());
     }
-
+    
     [HttpGet("BuscarPorId/{id}")]
     public IActionResult BuscarPorId(int id)
     {
         return Ok(_repositorio.BuscarPorId(id));
     }
-
+    
     [HttpGet("BuscarTodosComVendedor")]
     public IActionResult BuscarTodosComVendedor()
     {
         return Ok(_repositorio.BuscarProdutoComVendedor());
     }
-
+    
     [HttpPost("Adicionar")]
     public IActionResult Adicionar(ProdutoDTO produtoDto)
     {
@@ -48,19 +45,19 @@ public class ProdutoController : ControllerBase
         _repositorio.Adicionar(produto);
         return Ok("Produto adicionado com sucesso");
     }
-
+    
     [HttpPut("AlterarValor/{id}/{valor}")]
     public IActionResult AlterarValor(int id, double valor)
     {
         _repositorio.AlterarValor(id, valor);
         return Ok("Valor alterado com sucesso");
     }
-
+    
     [HttpDelete("Deletar/{id}")]
     public IActionResult Deletar(int id)
     {
         _repositorio.Deletar(id);
         return Ok("Removido com sucesso");
     }
-
+ 
 }

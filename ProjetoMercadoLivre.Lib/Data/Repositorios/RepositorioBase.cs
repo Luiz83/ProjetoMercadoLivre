@@ -1,13 +1,15 @@
 using Microsoft.EntityFrameworkCore;
+using ProjetoMercadoLivre.Lib.Data.Repositorios.Interfaces;
+using ProjetoMercadoLivre.Lib.Models;
 
 namespace ProjetoMercadoLivre.Lib.Data.Repositorios
 {
-    public class RepositorioBase<T> where T : class
+    public class RepositorioBase<T> :IRepositorioBase<T> where T : ModelBase 
     {
         protected readonly ProjetoMLContext _context;
         protected readonly DbSet<T> _dbset;
 
-        public RepositorioBase(ProjetoMLContext context, DbSet<T> dbset)
+        public RepositorioBase(ProjetoMLContext context, DbSet<T> dbset = null)
         {
             _context = context;
             _dbset = dbset;

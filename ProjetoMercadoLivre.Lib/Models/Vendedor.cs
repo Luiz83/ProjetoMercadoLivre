@@ -1,8 +1,7 @@
 namespace ProjetoMercadoLivre.Lib.Models
 {
-    public class Vendedor
+    public class Vendedor : ModelBase
     {
-        public int IdVendedor { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Cnpj { get; set; }
@@ -16,7 +15,7 @@ namespace ProjetoMercadoLivre.Lib.Models
 
         public Vendedor(int idVendedor,string nome, string email, string cnpj, DateTime dataCadastro)
         {
-            IdVendedor = idVendedor;
+            Id = idVendedor;
             Nome = nome;
             Email = email;
             Cnpj = cnpj;

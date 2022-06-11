@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoMercadoLivre.Lib.Data;
 using ProjetoMercadoLivre.Lib.Data.Repositorios;
+using ProjetoMercadoLivre.Lib.Data.Repositorios.Interfaces;
+using ProjetoMercadoLivre.Lib.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +14,13 @@ builder.Services.AddDbContext<ProjetoMLContext>(
 
 builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-builder.Services.AddScoped<ProdutoRepositorio>();
+
 builder.Services.AddScoped<PedidoRepositorio>();
 builder.Services.AddScoped<ProdutoXPedidoRepositorio>();
 builder.Services.AddScoped<TransportadoraRepositorio>();
 builder.Services.AddScoped<UsuarioRepositorio>();
 builder.Services.AddScoped<VendedorRepositorio>();
+builder.Services.AddScoped<IRepositorioProduto, ProdutoRepositorio>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

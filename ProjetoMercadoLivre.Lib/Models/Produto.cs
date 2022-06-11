@@ -1,8 +1,7 @@
 namespace ProjetoMercadoLivre.Lib.Models
 {
-    public class Produto
+    public class Produto : ModelBase
     {
-        public int IdProduto { get; set; }
         public int IdVendedor { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
@@ -18,7 +17,7 @@ namespace ProjetoMercadoLivre.Lib.Models
 
         public Produto(int idProduto,int idVendedor, string nome, string descricao,Double valor, DateTime dataCadastro)
         {
-            IdProduto = idProduto;
+            Id = idProduto;
             IdVendedor = idVendedor;
             Nome = nome;
             Descricao = descricao;
