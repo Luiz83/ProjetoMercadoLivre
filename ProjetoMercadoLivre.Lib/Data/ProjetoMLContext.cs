@@ -43,7 +43,7 @@ namespace ProjetoMercadoLivre.Lib.Data
             //Usuario
             modelBuilder.Entity<Usuario>().ToTable("ml_usuarios");
             modelBuilder.Entity<Usuario>().HasKey(x => x.Id);
-            modelBuilder.Entity<Transportadora>().Property(x => x.Id).HasColumnName("id_usuario");
+            modelBuilder.Entity<Usuario>().Property(x => x.Id).HasColumnName("id_usuario");
             modelBuilder.Entity<Usuario>().HasMany(x => x.ListaPedidos).WithOne(x => x.Cliente).HasForeignKey(x => x.IdUsuario);
         }
 
